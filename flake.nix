@@ -35,7 +35,8 @@
         org = "pythoneda-shared-pythoneda";
         repo = "banner";
         pname = "${org}-${repo}";
-        version = "0.0.25";
+        version = "0.0.26";
+        sha256 = "1dwsysf44cxcghcai214i8kzgr8nchqnq5qnj7xi6jki86paprfs";
         pkgs = import nixos { inherit system; };
         pythonpackage = "pythoneda.banner";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
@@ -68,10 +69,14 @@
           in python.pkgs.buildPythonPackage rec {
             inherit pname version;
             projectDir = ./.;
-            src = ./.;
-            bannerTemplateFile = ./templates/banner.py.template;
-            entrypointTemplateFile = ./templates/entrypoint.sh.template;
-            pyprojectTemplateFile = ./templates/pyproject.toml.template;
+            src = pkgs.fetchFromGitHub {
+              owner = org;
+              rev = version;
+              inherit repo sha256;
+            };
+            #            bannerTemplateFile = ./templates/banner.py.template;
+            #            entrypointTemplateFile = ./templates/entrypoint.sh.template;
+            pyprojectTemplateFile = ./pyproject.toml.template;
             pyprojectTemplate = pkgs.substituteAll {
               authors = builtins.concatStringsSep ","
                 (map (item: ''"${item}"'') maintainers);
@@ -94,8 +99,6 @@
               sourceRoot=$(ls | grep -v env-vars)
               chmod +w $sourceRoot
               cp ${pyprojectTemplate} $sourceRoot/pyproject.toml
-              cp ${bannerTemplateFile} $sourceRoot/banner.py.template
-              cp ${entrypointTemplateFile} $sourceRoot/entrypoint.sh.template
             '';
 
             postInstall = ''
@@ -107,7 +110,7 @@
               done
               popd
               mkdir $out/dist $out/bin $out/templates
-              cp banner.py.template entrypoint.sh.template $out/templates
+              cp templates/* $out/templates
               cp dist/${wheelName} $out/dist
               jq ".url = \"$out/dist/${wheelName}\"" $out/lib/python${pythonMajorMinorVersion}/site-packages/${pnameWithUnderscores}-${version}.dist-info/direct_url.json > temp.json && mv temp.json $out/lib/python${pythonMajorMinorVersion}/site-packages/${pnameWithUnderscores}-${version}.dist-info/direct_url.json
               chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path}
