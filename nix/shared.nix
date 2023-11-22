@@ -17,9 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 rec {
-  shellHook-for = { archRole, layer, nixpkgsRelease, org, package, python
-    , pythoneda-shared-pythoneda-domain, pythoneda-shared-pythoneda-banner
-    , banner, repo, space }:
+  shellHook-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
+    , org, package, python, pythoneda-shared-pythoneda-domain
+    , pythoneda-shared-pythoneda-banner, repo, space }:
     let
       pythonVersionParts = builtins.splitVersion python.version;
       pythonMajorVersion = builtins.head pythonVersionParts;
@@ -30,7 +30,7 @@ rec {
       export _PYTHONEDA_PACKAGE_VERSION="${package.version}";
       export _PYTHONEDA_PYTHON_NAME="${python.name}";
       export _PYTHONEDA_PYTHON_VERSION="${pythonMajorMinorVersion}";
-      export _PYTHONEDA_NIXPKGS_RELEASE="${nixpkgsRelease}";
+      export _PYTHONEDA_NIXPKGS_RELEASE="${nixpkgs-release}";
       export _PYTHONEDA="${pythoneda-shared-pythoneda-domain}";
       export _PYTHONEDA_BANNER="${pythoneda-shared-pythoneda-banner}";
       export _PYTHONEDA_ORG="${org}";
@@ -41,6 +41,11 @@ rec {
       export _PYTHONEDA_PACKAGE_TAG="${package.version}";
       export _PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | wc -l)"
       export _PYTHONEDA_PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | grep 'pythoneda' | wc -l)"
+      _PYTHONEDA_EXTRA_NAMESPACES="PYTHONEDA_EXTRA_NAMESPACES";
+      if [[ $_PYTHONEDA_EXTRA_NAMESPACES == "" ]]; then
+        _PYTHONEDA_EXTRA_NAMESPACES="${extra-namespaces}";
+      if
+      export _PYTHONEDA_EXTRA_NAMESPACES;
       export PS1="$($_PYTHONEDA_BANNER/bin/ps1.sh -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS)";
       ${banner} -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS
       export _PYTHONEDA_PYTHONPATH_OLD="$PYTHONPATH";
@@ -52,10 +57,10 @@ rec {
         fi
         echo ""
       else
-        if [[ "$PYTHONEDA_EXTRA_NAMESPACES" != "" ]]; then
+        if [[ "$_PYTHONEDA_EXTRA_NAMESPACES" != "" ]]; then
           _oldIFS="$IFS";
           IFS="$DWIFS";
-          for namespace in "$(echo $PYTHONEDA_EXTRA_NAMESPACES | sed 's : \n g')"; do
+          for namespace in "$(echo $_PYTHONEDA_EXTRA_NAMESPACES | sed 's : \n g')"; do
             IFS="$_oldIFS";
             namespaceUpper="$(echo $namespace | tr '[:lower:]' '[:upper:]')";
             variable="$(echo -n "PYTHONEDA_$namespaceUpper"; echo '_ROOT_FOLDER')"
@@ -69,15 +74,15 @@ rec {
         export PYTHONPATH="$(${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r "$PYTHONEDA_ROOT_FOLDER" development)";
       fi
     '';
-  devShell-for = { archRole, banner, layer, nixpkgsRelease, org, package, pkgs
-    , python, pythoneda-shared-pythoneda-banner
+  devShell-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
+    , org, package, pkgs, python, pythoneda-shared-pythoneda-banner
     , pythoneda-shared-pythoneda-domain, repo, space }:
     pkgs.mkShell {
       buildInputs = [ package pythoneda-shared-pythoneda-banner ];
       shellHook = shellHook-for {
-        inherit archRole banner layer nixpkgsRelease org package python
-          pythoneda-shared-pythoneda-domain pythoneda-shared-pythoneda-banner
-          repo space;
+        inherit archRole banner extra-namespaces layer nixpkgs-release org
+          package python pythoneda-shared-pythoneda-domain
+          pythoneda-shared-pythoneda-banner repo space;
       };
     };
   app-for = { package, entrypoint }: {
