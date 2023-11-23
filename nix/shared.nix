@@ -41,7 +41,7 @@ rec {
       export _PYTHONEDA_PACKAGE_TAG="${package.version}";
       export _PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | wc -l)"
       export _PYTHONEDA_PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | grep 'pythoneda' | wc -l)"
-      _PYTHONEDA_EXTRA_NAMESPACES="PYTHONEDA_EXTRA_NAMESPACES";
+      _PYTHONEDA_EXTRA_NAMESPACES="$PYTHONEDA_EXTRA_NAMESPACES";
       if [[ $_PYTHONEDA_EXTRA_NAMESPACES == "" ]]; then
         _PYTHONEDA_EXTRA_NAMESPACES="${extra-namespaces}";
       if
@@ -60,11 +60,11 @@ rec {
         if [[ "$_PYTHONEDA_EXTRA_NAMESPACES" != "" ]]; then
           _oldIFS="$IFS";
           IFS="$DWIFS";
-          for namespace in "$(echo $_PYTHONEDA_EXTRA_NAMESPACES | sed 's : \n g')"; do
-            IFS="$_oldIFS";
+          for namespace in $(echo $_PYTHONEDA_EXTRA_NAMESPACES | sed 's : \n g'); do
+            IFS=$'\n';
             namespaceUpper="$(echo $namespace | tr '[:lower:]' '[:upper:]')";
-            variable="$(echo -n "PYTHONEDA_$namespaceUpper"; echo '_ROOT_FOLDER')"
-            namespaceRootFolder="$(eval echo "\$$variable")";
+            variable="$(echo -n "$"; echo -n "PYTHONEDA_$namespaceUpper"; echo '_ROOT_FOLDER')"
+            namespaceRootFolder="$(eval echo "$variable")";
             if [[ "$namespaceRootFolder" == "" ]]; then
               printf "\033[33m[WARNING]\033[0m \033[35m$variable\033[36m is \033[31mnot set\033[0m. \033[36mChanges in $namespace packages won't be noticed! \033[0m\n";
             fi
