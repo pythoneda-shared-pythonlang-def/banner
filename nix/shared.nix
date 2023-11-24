@@ -49,6 +49,7 @@ rec {
       export PS1="$($_PYTHONEDA_BANNER/bin/ps1.sh -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS)";
       ${banner} -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS
       export _PYTHONEDA_PYTHONPATH_OLD="$PYTHONPATH";
+      extraNamespaces="";
       if [[ "$PYTHONEDA_ROOT_FOLDER" == "" ]]; then
         printf "\033[33m[WARNING]\033[0m \033[35mPYTHONEDA_ROOT_FOLDER\033[36m is \033[31mnot set\033[0m. \033[36mChanges in PythonEDA packages won't be noticed! \033[0m\n"
         if [[ $PYTHONEDA_PROCESS_PYTHONPATH != "" ]]; then
@@ -58,6 +59,7 @@ rec {
         echo ""
       else
         if [[ "$_PYTHONEDA_EXTRA_NAMESPACES" != "" ]]; then
+          extraNamespaces="PYTHONEDA_EXTRA_NAMESPACES=$_PYTHONEDA_EXTRA_NAMESPACES";
           _oldIFS="$IFS";
           IFS=$'\n';
           for namespace in $(echo $_PYTHONEDA_EXTRA_NAMESPACES | sed 's : \n g'); do
@@ -65,14 +67,15 @@ rec {
             namespaceUpper="$(echo $namespace | tr '[:lower:]' '[:upper:]')";
             variable="$(echo -n "$"; echo -n "PYTHONEDA_$namespaceUpper"; echo '_ROOT_FOLDER')"
             namespaceRootFolder="$(eval echo "$variable")";
-            echo "root folder of $namespaceUpper -> $namespaceRootFolder"
             if [[ "$namespaceRootFolder" == "" ]]; then
               printf "\033[33m[WARNING]\033[0m \033[35m$variable\033[36m is \033[31mnot set\033[0m. \033[36mChanges in $namespace packages won't be noticed! \033[0m\n";
+            else
+              extraNamespaces="$extraNamespaces $variable=$namespaceRootFolder";
             fi
           done;
           IFS="$_oldIFS";
         fi
-        export PYTHONPATH="$(${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r "$PYTHONEDA_ROOT_FOLDER" development)";
+        export PYTHONPATH="$($extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r "$PYTHONEDA_ROOT_FOLDER" development)";
       fi
     '';
   devShell-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
