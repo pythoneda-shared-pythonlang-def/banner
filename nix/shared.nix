@@ -70,7 +70,7 @@ rec {
             if [[ "$namespaceRootFolder" == "" ]]; then
               printf "\033[33m[WARNING]\033[0m \033[35m$variable\033[36m is \033[31mnot set\033[0m. \033[36mChanges in $namespace packages won't be noticed! \033[0m\n";
             else
-              extraNamespaces="$extraNamespaces $variable=$namespaceRootFolder";
+              extraNamespaces="$extraNamespaces $(echo -n "PYTHONEDA_$namespaceUpper"; echo -n '_ROOT_FOLDER')=$namespaceRootFolder";
             fi
           done;
           IFS="$_oldIFS";
