@@ -75,6 +75,7 @@ rec {
           done;
           IFS="$_oldIFS";
         fi
+        echo "$extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r $PYTHONEDA_ROOT_FOLDER development";
         export PYTHONPATH="$($extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r "$PYTHONEDA_ROOT_FOLDER" development)";
       fi
     '';
