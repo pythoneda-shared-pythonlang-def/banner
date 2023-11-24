@@ -27,6 +27,7 @@ packages = [{include = "@package@"}]
 
 [tool.poetry.dependencies]
 python = "^@pythonMajorMinorVersion@"
+termcolor = "^@termcolor@"
 
 [build-system]
 requires = ["poetry-core"]

@@ -85,12 +85,13 @@
                 version;
               package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
               src = pyprojectTemplateFile;
+              termcolor = python.pkgs.termcolor.version;
             };
 
             format = "pyproject";
 
             nativeBuildInputs = with python.pkgs; [ pip pkgs.jq poetry-core ];
-            propagatedBuildInputs = with python.pkgs; [ ];
+            propagatedBuildInputs = with python.pkgs; [ termcolor ];
 
             pythonImportsCheck = [ pythonpackage ];
 
