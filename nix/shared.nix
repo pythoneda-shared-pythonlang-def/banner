@@ -61,11 +61,10 @@ rec {
           _oldIFS="$IFS";
           IFS=$'\n';
           for namespace in $(echo $_PYTHONEDA_EXTRA_NAMESPACES | sed 's : \n g'); do
-            IFS=$'\n';
+            IFS="$_oldIFS";
             namespaceUpper="$(echo $namespace | tr '[:lower:]' '[:upper:]')";
             variable="$(echo -n "$"; echo -n "PYTHONEDA_$namespaceUpper"; echo '_ROOT_FOLDER')"
             namespaceRootFolder="$(eval echo "$variable")";
-            namespaceRootFolder="";
             if [[ "$namespaceRootFolder" == "" ]]; then
               printf "\033[33m[WARNING]\033[0m \033[35m$variable\033[36m is \033[31mnot set\033[0m. \033[36mChanges in $namespace packages won't be noticed! \033[0m\n";
             fi
