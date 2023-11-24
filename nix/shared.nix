@@ -59,7 +59,7 @@ rec {
       else
         if [[ "$_PYTHONEDA_EXTRA_NAMESPACES" != "" ]]; then
           _oldIFS="$IFS";
-          IFS="\n";
+          IFS=$'\n';
           for namespace in $(echo $_PYTHONEDA_EXTRA_NAMESPACES | sed 's : \n g'); do
             IFS=$'\n';
             namespaceUpper="$(echo $namespace | tr '[:lower:]' '[:upper:]')";
