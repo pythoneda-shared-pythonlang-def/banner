@@ -26,6 +26,7 @@ rec {
       pythonMajorMinorVersion =
         "${pythonMajorVersion}.${builtins.elemAt pythonVersionParts 1}";
     in ''
+      echo "package -> ${package}"
       export _PYTHONEDA_PACKAGE_NAME="${package.pname}";
       export _PYTHONEDA_PACKAGE_VERSION="${package.version}";
       export _PYTHONEDA_PYTHON_NAME="${python.name}";
