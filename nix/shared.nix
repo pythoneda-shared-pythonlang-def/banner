@@ -75,8 +75,10 @@ rec {
           done;
           IFS="$_oldIFS";
           export PYTHONEDA_EXTRA_NAMESPACES="$_PYTHONEDA_EXTRA_NAMESPACES";
+          export PYTHONPATH="$(eval "$extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development")";
+        else
+          export PYTHONPATH="$(${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development)";
         fi
-        export PYTHONPATH="$(eval "$extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development")";
       fi
     '';
   devShell-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
