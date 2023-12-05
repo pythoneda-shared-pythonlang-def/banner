@@ -39,6 +39,7 @@ rec {
       export _PYTHONEDA_REPO="${repo}";
       export _PYTHONEDA_SPACE="${space}";
       export _PYTHONEDA_PACKAGE_TAG="${package.version}";
+      export PYTHONPATH="${package}/lib/python${pythonMajorMinorVersion}/site-packages:$PYTHONPATH";
       export _PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | wc -l)"
       export _PYTHONEDA_PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | grep 'pythoneda' | wc -l)"
       _PYTHONEDA_EXTRA_NAMESPACES="$PYTHONEDA_EXTRA_NAMESPACES";
@@ -48,7 +49,7 @@ rec {
       export _PYTHONEDA_EXTRA_NAMESPACES;
       export PS1="$($_PYTHONEDA_BANNER/bin/ps1.sh -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS)";
       ${banner} -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS
-      export _PYTHONEDA_PYTHONPATH_OLD="$PYTHONPATH";
+      export _PYTHONEDA_PYTHONPATH_ORIG="$PYTHONPATH";
       extraNamespaces="";
       if [[ "$PYTHONEDA_ROOT_FOLDER" == "" ]]; then
         printf "\033[33m[WARNING]\033[0m \033[35mPYTHONEDA_ROOT_FOLDER\033[36m is \033[31mnot set\033[0m. \033[36mChanges in PythonEDA packages won't be noticed! \033[0m\n"
