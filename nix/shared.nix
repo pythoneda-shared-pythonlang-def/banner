@@ -26,7 +26,6 @@ rec {
       pythonMajorMinorVersion =
         "${pythonMajorVersion}.${builtins.elemAt pythonVersionParts 1}";
     in ''
-      echo "package -> ${package}"
       export _PYTHONEDA_PACKAGE_NAME="${package.pname}";
       export _PYTHONEDA_PACKAGE_VERSION="${package.version}";
       export _PYTHONEDA_PYTHON_NAME="${python.name}";
@@ -40,7 +39,6 @@ rec {
       export _PYTHONEDA_REPO="${repo}";
       export _PYTHONEDA_SPACE="${space}";
       export _PYTHONEDA_PACKAGE_TAG="${package.version}";
-      export PYTHONPATH="${package}/lib/python${pythonMajorMinorVersion}/site-packages:$PYTHONPATH";
       export _PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | wc -l)"
       export _PYTHONEDA_PYTHONEDA_DEPS="$(echo $PYTHONPATH | sed 's : \n g' | grep 'pythoneda' | wc -l)"
       _PYTHONEDA_EXTRA_NAMESPACES="$PYTHONEDA_EXTRA_NAMESPACES";
