@@ -48,7 +48,7 @@ rec {
       export _PYTHONEDA_EXTRA_NAMESPACES;
       export PS1="$($_PYTHONEDA_BANNER/bin/ps1.sh -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS)";
       ${banner} -o $_PYTHONEDA_ORG -r $_PYTHONEDA_REPO -t $_PYTHONEDA_PACKAGE_TAG -s $_PYTHONEDA_SPACE -a $_PYTHONEDA_ARCH_ROLE -l $_PYTHONEDA_LAYER -p $_PYTHONEDA_PYTHON_VERSION -n $_PYTHONEDA_NIXPKGS_RELEASE -D $_PYTHONEDA_DEPS -d $_PYTHONEDA_PYTHONEDA_DEPS
-      export _PYTHONEDA_PYTHONPATH_ORIG="$PYTHONPATH";
+      export _PYTHONEDA_PYTHONPATH_OLD="$PYTHONPATH";
       extraNamespaces="";
       if [[ "$PYTHONEDA_ROOT_FOLDER" == "" ]]; then
         printf "\033[33m[WARNING]\033[0m \033[35mPYTHONEDA_ROOT_FOLDER\033[36m is \033[31mnot set\033[0m. \033[36mChanges in PythonEDA packages won't be noticed! \033[0m\n"
@@ -75,10 +75,8 @@ rec {
           done;
           IFS="$_oldIFS";
           export PYTHONEDA_EXTRA_NAMESPACES="$_PYTHONEDA_EXTRA_NAMESPACES";
-          export PYTHONPATH="$(eval "$extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development")";
-        else
-          export PYTHONPATH="$(${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development)";
         fi
+        export PYTHONPATH="$(eval "$extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development")";
       fi
     '';
   devShell-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
