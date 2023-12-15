@@ -19,7 +19,7 @@
 {
   description = "Banner for PythonEDA projects";
   inputs = rec {
-    nixos.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixos.url = "github:NixOS/nixpkgs/23.11";
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
   };
   outputs = inputs:
