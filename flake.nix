@@ -90,8 +90,8 @@
 
             format = "pyproject";
 
-            nativeBuildInputs = with python.pkgs; [ pip pkgs.jq poetry-core ];
-            propagatedBuildInputs = with python.pkgs; [ termcolor ];
+            nativeBuildInputs = with python.pkgs; [ pip poetry-core ];
+            propagatedBuildInputs = with python.pkgs; [ ];
 
             pythonImportsCheck = [ pythonpackage ];
 
@@ -113,7 +113,6 @@
               mkdir $out/dist $out/bin $out/templates
               cp templates/* $out/templates
               cp dist/${wheelName} $out/dist
-              jq ".url = \"$out/dist/${wheelName}\"" $out/lib/python${pythonMajorMinorVersion}/site-packages/${pnameWithUnderscores}-${version}.dist-info/direct_url.json > temp.json && mv temp.json $out/lib/python${pythonMajorMinorVersion}/site-packages/${pnameWithUnderscores}-${version}.dist-info/direct_url.json
               chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path}
               echo '#!/usr/bin/env sh' > $out/bin/${banner-entrypoint}.sh
               echo "export PYTHONPATH=$PYTHONPATH" >> $out/bin/${banner-entrypoint}.sh
