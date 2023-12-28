@@ -85,7 +85,6 @@
                 version;
               package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
               src = pyprojectTemplateFile;
-              termcolor = python.pkgs.termcolor.version;
             };
 
             format = "pyproject";
