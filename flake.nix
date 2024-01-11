@@ -74,8 +74,6 @@
               rev = version;
               inherit repo sha256;
             };
-            #            bannerTemplateFile = ./templates/banner.py.template;
-            #            entrypointTemplateFile = ./templates/entrypoint.sh.template;
             pyprojectTemplateFile = ./pyproject.toml.template;
             pyprojectTemplate = pkgs.substituteAll {
               authors = builtins.concatStringsSep ","
@@ -109,8 +107,7 @@
                 fi
               done
               popd
-              mkdir $out/dist $out/bin $out/templates
-              cp templates/* $out/templates
+              mkdir $out/dist $out/bin
               cp dist/${wheelName} $out/dist
               chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path}
               echo '#!/usr/bin/env sh' > $out/bin/${banner-entrypoint}.sh
