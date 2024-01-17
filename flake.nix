@@ -107,8 +107,9 @@
                 fi
               done
               popd
-              mkdir $out/dist $out/bin
+              mkdir $out/dist $out/bin $out/templates
               cp dist/${wheelName} $out/dist
+              cp templates/* $out/templates
               chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path}
               echo '#!/usr/bin/env sh' > $out/bin/${banner-entrypoint}.sh
               echo "export PYTHONPATH=$PYTHONPATH" >> $out/bin/${banner-entrypoint}.sh
