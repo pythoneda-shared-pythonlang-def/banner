@@ -38,7 +38,7 @@
         version = "0.0.35";
         sha256 = "0fg9sh5my00ln7yd9z2iys0nw98ggcqqwz59p4zq4f8zg508qpay";
         pkgs = import nixos { inherit system; };
-        pythonpackage = "pythoneda.banner";
+        pythonpackage = "pythoneda.shared.banner";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
         banner-entrypoint = "banner";
         banner-entrypoint-path = "${package}/${banner-entrypoint}.py";
@@ -128,26 +128,21 @@
       in rec {
         apps = rec {
           default = pythoneda-shared-banner-default;
-          pythoneda-shared-banner-default =
-            pythoneda-shared-banner-python311;
+          pythoneda-shared-banner-default = pythoneda-shared-banner-python311;
           pythoneda-shared-banner-python38 = shared.app-for {
-            package =
-              self.packages.${system}.pythoneda-shared-banner-python38;
+            package = self.packages.${system}.pythoneda-shared-banner-python38;
             entrypoint = banner-entrypoint;
           };
           pythoneda-shared-banner-python39 = shared.app-for {
-            package =
-              self.packages.${system}.pythoneda-shared-banner-python39;
+            package = self.packages.${system}.pythoneda-shared-banner-python39;
             entrypoint = banner-entrypoint;
           };
           pythoneda-shared-banner-python310 = shared.app-for {
-            package =
-              self.packages.${system}.pythoneda-shared-banner-python310;
+            package = self.packages.${system}.pythoneda-shared-banner-python310;
             entrypoint = banner-entrypoint;
           };
           pythoneda-shared-banner-python311 = shared.app-for {
-            package =
-              self.packages.${system}.pythoneda-shared-banner-python311;
+            package = self.packages.${system}.pythoneda-shared-banner-python311;
             entrypoint = banner-entrypoint;
           };
         };
@@ -155,8 +150,7 @@
         defaultPackage = packages.default;
         packages = rec {
           default = pythoneda-shared-banner-default;
-          pythoneda-shared-banner-default =
-            pythoneda-shared-banner-python311;
+          pythoneda-shared-banner-default = pythoneda-shared-banner-python311;
           pythoneda-shared-banner-python38 =
             pythoneda-shared-banner-for { python = pkgs.python38; };
           pythoneda-shared-banner-python39 =
