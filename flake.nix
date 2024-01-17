@@ -35,8 +35,8 @@
         org = "pythoneda-shared";
         repo = "banner";
         pname = "${org}-${repo}";
-        version = "0.0.36";
-        sha256 = "0v0153kqdvrx74457z4p1vl8r7app4ggn32d387zqr7gxa161cwd";
+        version = "0.0.37";
+        sha256 = "1fnqxqw49ypn4iqlpb96qqy5xk8q8pvpmmqm2vx0vk7a5pli0p9j";
         pkgs = import nixos { inherit system; };
         pythonpackage = "pythoneda.shared.banner";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
