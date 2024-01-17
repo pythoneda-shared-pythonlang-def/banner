@@ -2,7 +2,7 @@
 #
 # This file provides functions used by PythonEDA's flake.nix files.
 #
-# Copyright (C) 2023-today rydnr's pythoneda-shared-pythoneda-def/banner
+# Copyright (C) 2023-today rydnr's pythoneda-shared-def/banner
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 rec {
   shellHook-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
-    , org, package, python, pythoneda-shared-pythoneda-domain
-    , pythoneda-shared-pythoneda-banner, repo, space }:
+    , org, package, python, pythoneda-shared-domain, pythoneda-shared-banner
+    , repo, space }:
     let
       pythonVersionParts = builtins.splitVersion python.version;
       pythonMajorVersion = builtins.head pythonVersionParts;
@@ -31,8 +31,8 @@ rec {
       export _PYTHONEDA_PYTHON_NAME="${python.name}";
       export _PYTHONEDA_PYTHON_VERSION="${pythonMajorMinorVersion}";
       export _PYTHONEDA_NIXPKGS_RELEASE="${nixpkgs-release}";
-      export _PYTHONEDA="${pythoneda-shared-pythoneda-domain}";
-      export _PYTHONEDA_BANNER="${pythoneda-shared-pythoneda-banner}";
+      export _PYTHONEDA="${pythoneda-shared-domain}";
+      export _PYTHONEDA_BANNER="${pythoneda-shared-banner}";
       export _PYTHONEDA_ORG="${org}";
       export _PYTHONEDA_ARCH_ROLE="${archRole}";
       export _PYTHONEDA_LAYER="${layer}";
@@ -80,14 +80,14 @@ rec {
       fi
     '';
   devShell-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
-    , org, package, pkgs, python, pythoneda-shared-pythoneda-banner
-    , pythoneda-shared-pythoneda-domain, repo, space }:
+    , org, package, pkgs, python, pythoneda-shared-banner
+    , pythoneda-shared-domain, repo, space }:
     pkgs.mkShell {
-      buildInputs = [ package pythoneda-shared-pythoneda-banner ];
+      buildInputs = [ package pythoneda-shared-banner ];
       shellHook = shellHook-for {
         inherit archRole banner extra-namespaces layer nixpkgs-release org
-          package python pythoneda-shared-pythoneda-domain
-          pythoneda-shared-pythoneda-banner repo space;
+          package python pythoneda-shared-domain pythoneda-shared-banner repo
+          space;
       };
     };
   app-for = { package, entrypoint }: {
