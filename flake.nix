@@ -2,7 +2,7 @@
 #
 # This file packages pythoneda-shared/banner as a Nix flake.
 #
-# Copyright (C) 2023-today rydnr's pythoneda-shared-def/banner
+# Copyright (C) 2023-today rydnr's pythoneda-shared-pythonlang-def/banner
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,11 +32,11 @@
         defaultSystems ++ [ "armv6l-linux" ];
     in flake-utils.lib.eachSystem supportedSystems (system:
       let
-        org = "pythoneda-shared";
+        org = "pythoneda-shared-pythonlang";
         repo = "banner";
         pname = "${org}-${repo}";
-        version = "0.0.37";
-        sha256 = "1fnqxqw49ypn4iqlpb96qqy5xk8q8pvpmmqm2vx0vk7a5pli0p9j";
+        version = "0.0.38";
+        sha256 = "0xp3dpqiahf0qf389ibkc9rbqs43n4i3q93yq8z5v66amzrmdf8c";
         pkgs = import nixos { inherit system; };
         pythonpackage = "pythoneda.shared.banner";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
@@ -55,7 +55,7 @@
         nixpkgsRelease =
           builtins.replaceStrings [ "\n" ] [ "" ] "nixos-${nixosVersion}";
         shared = import ./nix/shared.nix;
-        pythoneda-shared-banner-for = { python }:
+        pythoneda-shared-pythonlang-banner-for = { python }:
           let
             pnameWithUnderscores =
               builtins.replaceStrings [ "-" ] [ "_" ] pname;
@@ -128,38 +128,44 @@
           };
       in rec {
         apps = rec {
-          default = pythoneda-shared-banner-default;
-          pythoneda-shared-banner-default = pythoneda-shared-banner-python311;
-          pythoneda-shared-banner-python38 = shared.app-for {
-            package = self.packages.${system}.pythoneda-shared-banner-python38;
+          default = pythoneda-shared-pythonlang-banner-default;
+          pythoneda-shared-pythonlang-banner-default =
+            pythoneda-shared-pythonlang-banner-python311;
+          pythoneda-shared-pythonlang-banner-python38 = shared.app-for {
+            package =
+              self.packages.${system}.pythoneda-shared-pythonlang-banner-python38;
             entrypoint = banner-entrypoint;
           };
-          pythoneda-shared-banner-python39 = shared.app-for {
-            package = self.packages.${system}.pythoneda-shared-banner-python39;
+          pythoneda-shared-pythonlang-banner-python39 = shared.app-for {
+            package =
+              self.packages.${system}.pythoneda-shared-pythonlang-banner-python39;
             entrypoint = banner-entrypoint;
           };
-          pythoneda-shared-banner-python310 = shared.app-for {
-            package = self.packages.${system}.pythoneda-shared-banner-python310;
+          pythoneda-shared-pythonlang-banner-python310 = shared.app-for {
+            package =
+              self.packages.${system}.pythoneda-shared-pythonlang-banner-python310;
             entrypoint = banner-entrypoint;
           };
-          pythoneda-shared-banner-python311 = shared.app-for {
-            package = self.packages.${system}.pythoneda-shared-banner-python311;
+          pythoneda-shared-pythonlang-banner-python311 = shared.app-for {
+            package =
+              self.packages.${system}.pythoneda-shared-pythonlang-banner-python311;
             entrypoint = banner-entrypoint;
           };
         };
         defaultApp = apps.default;
         defaultPackage = packages.default;
         packages = rec {
-          default = pythoneda-shared-banner-default;
-          pythoneda-shared-banner-default = pythoneda-shared-banner-python311;
-          pythoneda-shared-banner-python38 =
-            pythoneda-shared-banner-for { python = pkgs.python38; };
-          pythoneda-shared-banner-python39 =
-            pythoneda-shared-banner-for { python = pkgs.python39; };
-          pythoneda-shared-banner-python310 =
-            pythoneda-shared-banner-for { python = pkgs.python310; };
-          pythoneda-shared-banner-python311 =
-            pythoneda-shared-banner-for { python = pkgs.python311; };
+          default = pythoneda-shared-pythonlang-banner-default;
+          pythoneda-shared-pythonlang-banner-default =
+            pythoneda-shared-pythonlang-banner-python311;
+          pythoneda-shared-pythonlang-banner-python38 =
+            pythoneda-shared-pythonlang-banner-for { python = pkgs.python38; };
+          pythoneda-shared-pythonlang-banner-python39 =
+            pythoneda-shared-pythonlang-banner-for { python = pkgs.python39; };
+          pythoneda-shared-pythonlang-banner-python310 =
+            pythoneda-shared-pythonlang-banner-for { python = pkgs.python310; };
+          pythoneda-shared-pythonlang-banner-python311 =
+            pythoneda-shared-pythonlang-banner-for { python = pkgs.python311; };
         };
       });
 }
