@@ -19,7 +19,7 @@
 {
   description = "Banner for PythonEDA projects";
   inputs = rec {
-    nixos.url = "github:NixOS/nixpkgs/23.11";
+    nixos.url = "github:NixOS/nixpkgs/24.05";
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
   };
   outputs = inputs:
@@ -35,8 +35,8 @@
         org = "pythoneda-shared-pythonlang";
         repo = "banner";
         pname = "${org}-${repo}";
-        version = "0.0.39";
-        sha256 = "1hf8563ziz0z6lq57gid7mj4dl5frdpiiws9zyx2s5q559fvrcmc";
+        version = "0.0.40";
+        sha256 = "1gw47z123lzsd6mzil51nhddh80b6baiap63a587kxh5lrx04pjx";
         pkgs = import nixos { inherit system; };
         pythonpackage = "pythoneda.shared.banner";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
