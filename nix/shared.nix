@@ -26,6 +26,7 @@ rec {
       pythonMajorMinorVersion =
         "${pythonMajorVersion}.${builtins.elemAt pythonVersionParts 1}";
     in ''
+      export PYTHONPATH="$PYTHONPATH:${package}/lib/python${pythonMajorMinorVersion}/site-packages"
       export _PYTHONEDA_PACKAGE_NAME="${package.pname}";
       export _PYTHONEDA_PACKAGE_VERSION="${package.version}";
       export _PYTHONEDA_PYTHON_NAME="${python.name}";
@@ -76,7 +77,7 @@ rec {
           IFS="$_oldIFS";
           export PYTHONEDA_EXTRA_NAMESPACES="$_PYTHONEDA_EXTRA_NAMESPACES";
         fi
-        export PYTHONPATH="$(eval "$extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development"):${package}/lib/python${pythonMajorMinorVersion}/site-packages";
+        export PYTHONPATH="$(eval "$extraNamespaces ${python}/bin/python $_PYTHONEDA/dist/scripts/process_pythonpath.py -r \"$PYTHONEDA_ROOT_FOLDER\" development")";
       fi
     '';
   devShell-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
