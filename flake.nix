@@ -74,15 +74,15 @@
               rev = version;
               inherit repo sha256;
             };
-            pyprojectTemplateFile = ./pyproject.toml.template;
-            pyprojectTemplate = pkgs.substituteAll {
+            pyprojectTomlTemplate = ./templates/pyproject.toml.template;
+            pyprojectToml = pkgs.substituteAll {
               authors = builtins.concatStringsSep ","
                 (map (item: ''"${item}"'') maintainers);
               desc = description;
               inherit homepage pname pythonMajorMinorVersion pythonpackage
                 version;
               package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
-              src = pyprojectTemplateFile;
+              src = pyprojectTomlTemplate;
             };
 
             format = "pyproject";
@@ -96,7 +96,7 @@
               cp -r ${src} .
               sourceRoot=$(ls | grep -v env-vars)
               chmod +w $sourceRoot
-              cp ${pyprojectTemplate} $sourceRoot/pyproject.toml
+              cp ${pyprojectToml} $sourceRoot/pyproject.toml
             '';
 
             postInstall = ''
