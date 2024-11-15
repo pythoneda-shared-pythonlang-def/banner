@@ -130,7 +130,7 @@
         apps = rec {
           default = pythoneda-shared-pythonlang-banner-default;
           pythoneda-shared-pythonlang-banner-default =
-            pythoneda-shared-pythonlang-banner-python311;
+            pythoneda-shared-pythonlang-banner-python312;
           pythoneda-shared-pythonlang-banner-python38 = shared.app-for {
             package =
               self.packages.${system}.pythoneda-shared-pythonlang-banner-python38;
@@ -151,13 +151,18 @@
               self.packages.${system}.pythoneda-shared-pythonlang-banner-python311;
             entrypoint = banner-entrypoint;
           };
+          pythoneda-shared-pythonlang-banner-python312 = shared.app-for {
+            package =
+              self.packages.${system}.pythoneda-shared-pythonlang-banner-python312;
+            entrypoint = banner-entrypoint;
+          };
         };
         defaultApp = apps.default;
         defaultPackage = packages.default;
         packages = rec {
           default = pythoneda-shared-pythonlang-banner-default;
           pythoneda-shared-pythonlang-banner-default =
-            pythoneda-shared-pythonlang-banner-python311;
+            pythoneda-shared-pythonlang-banner-python312;
           pythoneda-shared-pythonlang-banner-python38 =
             pythoneda-shared-pythonlang-banner-for { python = pkgs.python38; };
           pythoneda-shared-pythonlang-banner-python39 =
@@ -166,6 +171,8 @@
             pythoneda-shared-pythonlang-banner-for { python = pkgs.python310; };
           pythoneda-shared-pythonlang-banner-python311 =
             pythoneda-shared-pythonlang-banner-for { python = pkgs.python311; };
+          pythoneda-shared-pythonlang-banner-python312 =
+            pythoneda-shared-pythonlang-banner-for { python = pkgs.python312; };
         };
       });
 }
