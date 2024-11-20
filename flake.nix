@@ -128,9 +128,7 @@
           };
       in rec {
         apps = rec {
-          default = pythoneda-shared-pythonlang-banner-default;
-          pythoneda-shared-pythonlang-banner-default =
-            pythoneda-shared-pythonlang-banner-python312;
+          default = pythoneda-shared-pythonlang-banner-python312;
           pythoneda-shared-pythonlang-banner-python38 = shared.app-for {
             package =
               self.packages.${system}.pythoneda-shared-pythonlang-banner-python38;
@@ -160,8 +158,7 @@
         defaultApp = apps.default;
         defaultPackage = packages.default;
         packages = rec {
-          default = pythoneda-shared-pythonlang-banner-default;
-          pythoneda-shared-pythonlang-banner-default =
+          default =
             pythoneda-shared-pythonlang-banner-python312;
           pythoneda-shared-pythonlang-banner-python38 =
             pythoneda-shared-pythonlang-banner-for { python = pkgs.python38; };
