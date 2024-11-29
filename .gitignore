@@ -2,11 +2,8 @@
 .idea
 *.log
 tmp/
-
-*.py[cod]
-*.egg
-build
-htmlcov
-
 result
-result
+deps.txt
+deps.dot
+deps.png
+src

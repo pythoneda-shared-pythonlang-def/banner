@@ -19,8 +19,8 @@
 {
   description = "Banner for PythonEDA projects";
   inputs = rec {
-    nixos.url = "github:NixOS/nixpkgs/24.05";
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
+    nixos.url = "github:NixOS/nixpkgs/24.05";
   };
   outputs = inputs:
     with inputs;
@@ -129,11 +129,6 @@
       in rec {
         apps = rec {
           default = pythoneda-shared-pythonlang-banner-python312;
-          pythoneda-shared-pythonlang-banner-python38 = shared.app-for {
-            package =
-              self.packages.${system}.pythoneda-shared-pythonlang-banner-python38;
-            entrypoint = banner-entrypoint;
-          };
           pythoneda-shared-pythonlang-banner-python39 = shared.app-for {
             package =
               self.packages.${system}.pythoneda-shared-pythonlang-banner-python39;
@@ -154,14 +149,17 @@
               self.packages.${system}.pythoneda-shared-pythonlang-banner-python312;
             entrypoint = banner-entrypoint;
           };
+          pythoneda-shared-pythonlang-banner-python313 = shared.app-for {
+            package =
+              self.packages.${system}.pythoneda-shared-pythonlang-banner-python313;
+            entrypoint = banner-entrypoint;
+          };
         };
         defaultApp = apps.default;
         defaultPackage = packages.default;
         packages = rec {
           default =
             pythoneda-shared-pythonlang-banner-python312;
-          pythoneda-shared-pythonlang-banner-python38 =
-            pythoneda-shared-pythonlang-banner-for { python = pkgs.python38; };
           pythoneda-shared-pythonlang-banner-python39 =
             pythoneda-shared-pythonlang-banner-for { python = pkgs.python39; };
           pythoneda-shared-pythonlang-banner-python310 =
@@ -170,6 +168,8 @@
             pythoneda-shared-pythonlang-banner-for { python = pkgs.python311; };
           pythoneda-shared-pythonlang-banner-python312 =
             pythoneda-shared-pythonlang-banner-for { python = pkgs.python312; };
+          pythoneda-shared-pythonlang-banner-python313 =
+            pythoneda-shared-pythonlang-banner-for { python = pkgs.python313; };
         };
       });
 }
