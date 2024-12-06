@@ -17,10 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 {
-  description = "Banner for PythonEDA projects";
+  description = "Nix flake for pythoneda-shared-pythonlang/banner";
   inputs = rec {
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
-    nixos.url = "github:NixOS/nixpkgs/24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/24.05";
   };
   outputs = inputs:
     with inputs;
@@ -37,7 +37,7 @@
         pname = "${org}-${repo}";
         version = "0.0.50";
         sha256 = "0acb289ydcmfz2hhpszcpz41sv16rmymf742lfdh1cpvgkqchrk0";
-        pkgs = import nixos { inherit system; };
+        pkgs = import nixpkgs { inherit system; };
         pythonpackage = "pythoneda.shared.banner";
         package = builtins.replaceStrings [ "." ] [ "/" ] pythonpackage;
         banner-entrypoint = "banner";
@@ -51,9 +51,9 @@
         archRole = "S";
         space = "_";
         layer = "D";
-        nixosVersion = builtins.readFile "${nixos}/.version";
+        nixpkgsVersion = builtins.readFile "${nixpkgs}/.version";
         nixpkgsRelease =
-          builtins.replaceStrings [ "\n" ] [ "" ] "nixos-${nixosVersion}";
+          builtins.replaceStrings [ "\n" ] [ "" ] "nixpkgs-${nixpkgsVersion}";
         shared = import ./nix/shared.nix;
         pythoneda-shared-pythonlang-banner-for = { python }:
           let
