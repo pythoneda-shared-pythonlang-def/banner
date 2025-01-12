@@ -92,33 +92,33 @@
             pythonImportsCheck = [ pythonpackage ];
 
             unpackPhase = ''
-              cp -r ${src} .
-              sourceRoot=$(ls | grep -v env-vars)
-              chmod +w $sourceRoot
-              cp ${pyprojectToml} $sourceRoot/pyproject.toml
+              command cp -r ${src} .
+              sourceRoot=$(command ls | command grep -v env-vars)
+              command chmod +w $sourceRoot
+              command cp ${pyprojectToml} $sourceRoot/pyproject.toml
             '';
 
             postInstall = ''
-              pushd /build/$sourceRoot
-              for f in $(find . -name '__init__.py'); do
+              command pushd /build/$sourceRoot
+              for f in $(command find . -name '__init__.py'); do
                 if [[ ! -e $out/lib/python${pythonMajorMinorVersion}/site-packages/$f ]]; then
-                  cp $f $out/lib/python${pythonMajorMinorVersion}/site-packages/$f;
+                  command cp $f $out/lib/python${pythonMajorMinorVersion}/site-packages/$f;
                 fi
               done
-              popd
-              mkdir $out/dist $out/bin $out/templates
-              cp dist/${wheelName} $out/dist
-              cp templates/* $out/templates
-              chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path}
-              echo '#!/usr/bin/env sh' > $out/bin/${banner-entrypoint}.sh
-              echo "export PYTHONPATH=$PYTHONPATH" >> $out/bin/${banner-entrypoint}.sh
-              echo "${python}/bin/python $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path} \$@" >> $out/bin/${banner-entrypoint}.sh
-              chmod +x $out/bin/${banner-entrypoint}.sh
-              chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${ps1-entrypoint-path}
-              echo '#!/usr/bin/env sh' > $out/bin/${ps1-entrypoint}.sh
-              echo "export PYTHONPATH=$PYTHONPATH" >> $out/bin/${ps1-entrypoint}.sh
-              echo "${python}/bin/python $out/lib/python${pythonMajorMinorVersion}/site-packages/${ps1-entrypoint-path} \$@" >> $out/bin/${ps1-entrypoint}.sh
-              chmod +x $out/bin/${ps1-entrypoint}.sh
+              command popd
+              command mkdir $out/dist $out/bin $out/templates
+              command cp dist/${wheelName} $out/dist
+              command cp templates/* $out/templates
+              command chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path}
+              command echo '#!/usr/bin/env sh' > $out/bin/${banner-entrypoint}.sh
+              command echo "export PYTHONPATH=$PYTHONPATH" >> $out/bin/${banner-entrypoint}.sh
+              command echo "${python}/bin/python $out/lib/python${pythonMajorMinorVersion}/site-packages/${banner-entrypoint-path} \$@" >> $out/bin/${banner-entrypoint}.sh
+              command chmod +x $out/bin/${banner-entrypoint}.sh
+              command chmod +x $out/lib/python${pythonMajorMinorVersion}/site-packages/${ps1-entrypoint-path}
+              command echo '#!/usr/bin/env sh' > $out/bin/${ps1-entrypoint}.sh
+              command echo "export PYTHONPATH=$PYTHONPATH" >> $out/bin/${ps1-entrypoint}.sh
+              command echo "${python}/bin/python $out/lib/python${pythonMajorMinorVersion}/site-packages/${ps1-entrypoint-path} \$@" >> $out/bin/${ps1-entrypoint}.sh
+              command chmod +x $out/bin/${ps1-entrypoint}.sh
             '';
 
             meta = with pkgs.lib; {
