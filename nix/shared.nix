@@ -85,6 +85,7 @@ rec {
     , org, package, pkgs, python, pythoneda-shared-pythonlang-banner
     , pythoneda-shared-pythonlang-domain, repo, space }:
     pkgs.mkShell {
+      nativeBuildInputs = with python.pkgs; [ pip poetry-core setuptools wheel ];
       buildInputs = [ package pythoneda-shared-pythonlang-banner ];
       shellHook = shellHook-for {
         inherit archRole banner extra-namespaces layer nixpkgs-release org
