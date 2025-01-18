@@ -53,9 +53,13 @@ rec {
       export _PYTHONEDA_PYTHONPATH_OLD="$PYTHONPATH";
       extraNamespaces="";
       if [[ "$PYTHONEDA_ROOT_FOLDER" == "" ]]; then
-        printf "\033[33m[WARNING]\033[0m \033[35mPYTHONEDA_ROOT_FOLDER\033[36m is \033[31mnot set\033[0m. \033[36mChanges in PythonEDA packages won't be noticed! \033[0m\n"
+        if [ -z "$PYTHONEDA_NO_BANNER" ]; then
+          printf "\033[33m[WARNING]\033[0m \033[35mPYTHONEDA_ROOT_FOLDER\033[36m is \033[31mnot set\033[0m. \033[36mChanges in PythonEDA packages won't be noticed! \033[0m\n"
+        fi
         if [[ $PYTHONEDA_PROCESS_PYTHONPATH != "" ]]; then
-          printf "\033[34m[INFO]\033[0m \033[36mSorting PYTHONPATH.\033[0m\n"
+          if [ -z "$PYTHONEDA_NO_BANNER" ]; then
+            printf "\033[34m[INFO]\033[0m \033[36mSorting PYTHONPATH.\033[0m\n"
+          fi
           export PYTHONPATH="$(python $_PYTHONEDA/dist/scripts/process_pythonpath.py sort)";
         fi
         echo ""
@@ -70,7 +74,9 @@ rec {
             variable="$(echo -n "$"; echo -n "PYTHONEDA_$namespaceUpper"; echo '_ROOT_FOLDER')"
             namespaceRootFolder="$(eval echo "$variable")";
             if [[ "$namespaceRootFolder" == "" ]]; then
-              printf "\033[33m[WARNING]\033[0m \033[35m$variable\033[36m is \033[31mnot set\033[0m. \033[36mChanges in $namespace packages won't be noticed! \033[0m\n";
+              if [ -z "$PYTHONEDA_NO_BANNER" ]; then
+                printf "\033[33m[WARNING]\033[0m \033[35m$variable\033[36m is \033[31mnot set\033[0m. \033[36mChanges in $namespace packages won't be noticed! \033[0m\n";
+              fi
             else
               extraNamespaces="$extraNamespaces $(echo -n "PYTHONEDA_$namespaceUpper"; echo -n '_ROOT_FOLDER')=$namespaceRootFolder";
             fi
