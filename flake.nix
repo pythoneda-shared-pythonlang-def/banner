@@ -20,7 +20,7 @@
   description = "Nix flake for pythoneda-shared-pythonlang/banner";
   inputs = rec {
     flake-utils.url = "github:numtide/flake-utils/v1.0.0";
-    nixpkgs.url = "github:NixOS/nixpkgs/24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-24.11";
   };
   outputs = inputs:
     with inputs;
