@@ -89,15 +89,13 @@ rec {
     '';
   devShell-for = { archRole, banner, extra-namespaces, layer, nixpkgs-release
     , org, package, pkgs, python, pythoneda-shared-pythonlang-banner
-    , pythoneda-shared-pythonlang-domain, repo, space, preBuild ? null, buildInputs ? [], nativeBuildInputs ? [], shellHook ? null }:
+    , pythoneda-shared-pythonlang-domain, repo, space, preBuild ? null, buildInputs ? [], nativeBuildInputs ? []}:
     pkgs.mkShell {
       nativeBuildInputs = if nativeBuildInputs != null then nativeBuildInputs else (with python.pkgs; [ pip ]);
       buildInputs = if buildInputs != null then buildInputs ++ [ package pythoneda-shared-pythonlang-banner ] else [ package pythoneda-shared-pythonlang-banner ] ;
-      shellHook = ''
-        $(shellHook-for {
+      shellHook = shellHook-for {
           inherit archRole banner extra-namespaces layer nixpkgs-release org package python pythoneda-shared-pythonlang-domain pythoneda-shared-pythonlang-banner repo space;
-        })
-      '' + (if shellHook != null then shellHook else "");
+      };
       preBuild = if preBuild != null then preBuild else null;
     };
   app-for = { package, entrypoint }: {
